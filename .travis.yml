@@ -13,6 +13,6 @@ install:
   - poetry install -vvv
 script:
   - poetry run coverage run --source=hogwarts-apitest -m pytest -v
-  - poetry run coverage report
+  - poetry run coverage report -m
 #after_success:
 #  - poetry run coveralls
