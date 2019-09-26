@@ -17,7 +17,8 @@ class ApiHttpbinPost(BaseApi):
 
 def test_httpbin_get():
     ApiHttpbinGet().run().\
-        validate("status_code", 200)
+        validate("status_code", 200).\
+        validate("headers.server", "nginx")
 
 
 def test_httpbin_get_with_params():
