@@ -38,7 +38,7 @@ class BaseApi(object):
         for _key in key.split('.'):
             if isinstance(value, requests.Response):
                 value = getattr(self.response, key)
-            elif isinstance(value, requests.structures.CaseInsensitiveDict):
+            elif isinstance(value, (requests.structures.CaseInsensitiveDict, dict)):
                 value = value[_key]
         actual_value = getattr(self.response, key)
         assert actual_value == except_value
