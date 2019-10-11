@@ -30,22 +30,23 @@ class BaseApi(object):
             data=self.data,
             headers=self.headers
         )
-        print(self.response.text)
+        print("response.text=========", self.response.text)
         return self
 
     def validate(self, key, except_value):
         value = self.response
 
         for _key in key.split('.'):
+            print("_key========", _key)
             if isinstance(value, requests.Response):
                 if _key == "json()":
                     value = self.response.json()
                 else:
                     value = getattr(value, _key)
 
-                print("=========", value)
+                print("response_value=========", value)
             elif isinstance(value, (requests.structures.CaseInsensitiveDict, dict)):
-                print("========", value)
+                print("structures_value========", value)
                 value = value[_key]
         print("========", value)
         assert value == except_value
