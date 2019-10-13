@@ -23,12 +23,15 @@ class BaseApi(object):
         return self
 
     def run(self):
+        proxies = {'http': '127.0.0.1:8888', 'https': '127.0.0.1:8888'}
         self.response = requests.request(
             method=self.method,
             url=self.url,
             json=self.json,
             data=self.data,
-            headers=self.headers
+            params=self.params,
+            headers=self.headers,
+            proxies=proxies
         )
         print("response.text=========", self.response.text)
         return self
@@ -39,7 +42,7 @@ class BaseApi(object):
         for _key in key.split('.'):
             print("_key========", _key)
             if isinstance(value, requests.Response):
-                if _key == "json()":
+                if _key in ["json()", "json"]:
                     value = self.response.json()
                 else:
                     value = getattr(value, _key)
@@ -51,3 +54,7 @@ class BaseApi(object):
         print("========", value)
         assert value == except_value
         return self
+
+    def extract(self, field):
+        value = getattr(self.response, field)
+        return value
