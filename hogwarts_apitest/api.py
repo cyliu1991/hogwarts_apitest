@@ -19,7 +19,7 @@ class BaseApi(object):
         return self
 
     def set_json(self, json_data):
-        self.json_data = json_data
+        self.json = json_data
         return self
 
     def run(self):
@@ -36,10 +36,9 @@ class BaseApi(object):
         print("response.text=========", self.response.text)
         return self
 
-    def validate(self, key, except_value):
+    def extract(self, field):
         value = self.response
-
-        for _key in key.split('.'):
+        for _key in field.split('.'):
             print("_key========", _key)
             if isinstance(value, requests.Response):
                 if _key in ["json()", "json"]:
@@ -51,10 +50,10 @@ class BaseApi(object):
             elif isinstance(value, (requests.structures.CaseInsensitiveDict, dict)):
                 print("structures_value========", value)
                 value = value[_key]
-        print("========", value)
+        return value
+
+    def validate(self, key, except_value):
+        value = self.extract(key)
         assert value == except_value
         return self
 
-    def extract(self, field):
-        value = getattr(self.response, field)
-        return value
