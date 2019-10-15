@@ -53,10 +53,11 @@ def test_httpbin_parameters_share():
 
 
 def test_httpbin_extract():
-    status_code = ApiHttpbinGet().run().extract("status_code")
+    httpbin_run = ApiHttpbinGet().run()
+    status_code = httpbin_run.extract("status_code")
     assert status_code == 200
 
-    connection = ApiHttpbinGet().run().extract("headers.Connection")
+    connection = httpbin_run.extract("headers.Connection")
     assert connection == "keep-alive"
 
 
@@ -69,3 +70,16 @@ def test_httpbin_parameters_extract():
         .run()\
         .validate("json.json.cookies", cookies)
 
+
+def test_httpbin_login_status():
+    # step1 login and get cookie
+    ApiHttpbinSetCookies().set_params(key="test").run()
+
+    # step2
+    resp = ApiHttpbinPost().set_json({"abc": "123"})\
+        .run()
+
+    request_headers = resp.response.request.headers
+    print("=========", request_headers)
+
+    assert "key=test" in request_headers["Cookie"]

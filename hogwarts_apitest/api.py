@@ -1,6 +1,8 @@
 import requests
 import requests.structures
 
+session = requests.sessions.Session()
+
 
 class BaseApi(object):
     url = ""
@@ -24,7 +26,7 @@ class BaseApi(object):
 
     def run(self):
         proxies = {'http': '127.0.0.1:8888', 'https': '127.0.0.1:8888'}
-        self.response = requests.request(
+        self.response = session.request(
             method=self.method,
             url=self.url,
             json=self.json,
