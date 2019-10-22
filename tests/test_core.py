@@ -75,7 +75,7 @@ def test_httpbin_login_status():
     # step1 login and get cookie
     ApiHttpbinSetCookies().set_params(key="test").run()
 
-    # step2
+    # step2 request an other api, check cookie
     resp = ApiHttpbinPost().set_json({"abc": "123"})\
         .run()
 
