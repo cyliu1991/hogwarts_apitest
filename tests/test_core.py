@@ -85,13 +85,15 @@ def test_httpbin_parameters_extract():
 
 def test_httpbin_login_status():
     # step1 login and get cookie
-    ApiHttpbinSetCookies().set_params(key="test").run()
+    ApiHttpbinSetCookies().set_params(freeform="567").run()
 
     # step2 request an other api, check cookie
-    resp = ApiHttpbinPost().set_json({"abc": "123"})\
-        .run()
+    resp = ApiHttpbinPost()\
+        .set_json({"abc": "123"})\
+        .run()\
+        .get_response()
 
-    request_headers = resp.response.request.headers
+    request_headers = resp.request.headers
     print("=========", request_headers)
 
-    assert "key=test" in request_headers["Cookie"]
+    assert "freeform=567" in request_headers["Cookie"]

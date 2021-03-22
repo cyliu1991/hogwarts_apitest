@@ -59,3 +59,5 @@ class BaseApi(object):
         assert value == except_value
         return self
 
+    def get_response(self):
+        return self.response
