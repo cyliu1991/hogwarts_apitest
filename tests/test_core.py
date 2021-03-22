@@ -29,6 +29,16 @@ def test_httpbin_post():
         .validate("json().json.abc", 456)
 
 
+def test_httpbin_set_cookies():
+    api_run = ApiHttpbinGetCookies()\
+        .set_cookie("freeform1", "123")\
+        .set_cookie("freeform2", "456")\
+        .run()
+    freeform1 = api_run.extract("json().cookies.freeform1")
+    freeform2 = api_run.extract("json().cookies.freeform2")
+
+    assert freeform1 == "123"
+    assert freeform2 == "456"
 
 def test_httpbin_get_cookies():
     ApiHttpbinGetCookies().run()
