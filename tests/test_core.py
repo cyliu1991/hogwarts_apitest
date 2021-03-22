@@ -5,7 +5,7 @@ def test_httpbin_get():
     ApiHttpbinGet().run() \
         .validate("status_code", 200)\
         .validate("headers.Connection", "keep-alive")\
-        .validate("json.url", "https://httpbin.org/get")
+        .validate("json.url", "http://httpbin.org/get")
 
 
 def test_httpbin_get_with_params():
@@ -14,7 +14,7 @@ def test_httpbin_get_with_params():
         .run()\
         .validate("status_code", 200)\
         .validate("headers.Connection", "keep-alive")\
-        .validate("json.url", "https://httpbin.org/get?abc=123&xyz=456")\
+        .validate("json.url", "http://httpbin.org/get?abc=123&xyz=456")\
         .validate("json.headers.Accept", "application/json")
 
 
@@ -24,8 +24,10 @@ def test_httpbin_post():
         .run()\
         .validate("status_code", 200)\
         .validate("headers.Connection", "keep-alive") \
-        .validate("json.url", "https://httpbin.org/post") \
-        .validate("json.headers.Accept", "application/json")
+        .validate("json.url", "http://httpbin.org/post") \
+        .validate("json.headers.Accept", "application/json") \
+        .validate("json().json.abc", 456)
+
 
 
 def test_httpbin_get_cookies():
@@ -39,7 +41,7 @@ def test_httpbin_parameters_share():
         .run() \
         .validate("status_code", 200) \
         .validate("headers.Connection", "keep-alive") \
-        .validate("json.url", "https://httpbin.org/get?user_id={}".format(user_id)) \
+        .validate("json.url", "http://httpbin.org/get?user_id={}".format(user_id)) \
         .validate("json.headers.Accept", "application/json")
 
     ApiHttpbinPost(). \
@@ -47,7 +49,7 @@ def test_httpbin_parameters_share():
         .run() \
         .validate("status_code", 200) \
         .validate("headers.Connection", "keep-alive") \
-        .validate("json.url", "https://httpbin.org/post") \
+        .validate("json.url", "http://httpbin.org/post") \
         .validate("json.headers.Accept", "application/json")\
         .validate("json.form.user_id", "adk129")
 

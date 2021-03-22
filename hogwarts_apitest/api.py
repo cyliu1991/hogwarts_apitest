@@ -25,7 +25,7 @@ class BaseApi(object):
         return self
 
     def run(self):
-        proxies = {'http': '127.0.0.1:8888', 'https': '127.0.0.1:8888'}
+        # proxies = {'http': '127.0.0.1:8888', 'https': '127.0.0.1:8888'}
         self.response = session.request(
             method=self.method,
             url=self.url,
@@ -33,7 +33,7 @@ class BaseApi(object):
             data=self.data,
             params=self.params,
             headers=self.headers,
-            proxies=proxies
+            # proxies=proxies
         )
         print("response.text=========", self.response.text)
         return self
